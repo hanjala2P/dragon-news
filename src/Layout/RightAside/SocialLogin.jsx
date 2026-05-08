@@ -1,9 +1,9 @@
-import React from "react";
+
 
 const SocialLogin = () => {
   return (
     <div>
-      <h2 className="font-medium mb-5">Login With</h2>
+      <h2 className="font-bold mb-5">Login With</h2>
       <div className="flex flex-col gap-3">
        
 
