@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import Root from "../Layout/Root";
 import HomePage from "../Pages/HomePage";
 import CategoryNews from "../Pages/CategoryNews";
+import NewsDetails from "../Pages/NewsDetails";
 
 
  const router =  createBrowserRouter([
@@ -20,6 +21,11 @@ import CategoryNews from "../Pages/CategoryNews";
                 Component:CategoryNews,
                 loader:()=>fetch('/news.json'),
              },
+             {
+                path:'/newsDetails/:id',
+                element: <NewsDetails />,
+                loader: () => fetch("/news.json"),
+             }
         ]
     },
     {

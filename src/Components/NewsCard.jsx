@@ -64,7 +64,7 @@ const NewsCard = ({ news }) => {
           {details.slice(0, 180)}...
 
           <Link
-            to={`/news/${id}`}
+            to={`/newsDetails/${id}`}
             className="text-orange-500 font-semibold ml-2"
           >
             Read More
