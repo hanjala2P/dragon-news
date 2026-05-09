@@ -1,27 +1,48 @@
 
-import { use } from 'react';
-import { Link } from 'react-router';
+import { use, useState,} from 'react';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
-    const {createUser,setUser}=use(AuthContext);
+    const [nameError , setNameError] = useState('');
+    const {createUser,setUser,updateUser}=use(AuthContext);
+
+    const navigate  = useNavigate();
+
     const handleRegister =(e)=>{
         e.preventDefault();
 
         const form = e.target;
         const name = form.name.value;
+        if(name.length<3){
+            setNameError("Name should be 3 Or more  Charecter ");
+            return;
+        }
+        else{
+            setNameError('')
+        }
         const email = form.email.value;
-        const photoURL = form.photoURL.value;
+        const photo = form.photo.value;
         const password = form.password.value;
-        console.log({name, email, photoURL, password});
+        // console.log({name, email, photo, password});
+
         createUser(email,password)
         .then(result =>{
             const user = result.user;
             // console.log(user);
-            setUser(user);
+            updateUser({displayName:name ,photoURL:photo})
+            .then(()=>{
+                 setUser({...user,displayName:name ,photoURL:photo});
+                 navigate('/');
+            })
+            .cath((error)=>{
+                console.log(error);
+                setUser(user);
+            })
+           
         })
         .catch((error)=>{
-            const errorCode = error.code;
+            // const errorCode = error.code;
             const errorMassage =error.massage;
             alert(errorMassage)
             
@@ -37,12 +58,13 @@ const Register = () => {
             {/* name */}
           <label name='name' className="label">Name</label>
           <input required name='name' type="text" className="input" placeholder="Name" />
+          {nameError && <p className='text-red-500'>{nameError}</p> }
             {/* email */}
           <label name='email' className="label">Email</label>
           <input required name='email' type="email" className="input" placeholder="Email" />
            {/* photo URL */}
-            <label name='photoURL' className="label">Photo URL</label>
-            <input required name='photoURL' type="text" className="input" placeholder="Photo URL" />
+            <label name='photo' className="label">Photo URL</label>
+            <input required name='photo' type="text" className="input" placeholder="Photo URL" />
             {/* password */}
           <label name='password' className="label">Password</label>
           <input required name='password' type="password" className="input" placeholder="Password" />

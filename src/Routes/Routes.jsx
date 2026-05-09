@@ -6,6 +6,8 @@ import NewsDetails from "../Pages/NewsDetails";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import AuthLayout from "../Layout/AuthLayout";
+import PrivateRoute from "../Provider/PrivateRoute";
+import Loading from "../Pages/Loading";
 
 
  const router =  createBrowserRouter([
@@ -13,7 +15,7 @@ import AuthLayout from "../Layout/AuthLayout";
         path:'/',
         Component:Root,
         errorElement: <h1 className="text-center font-semibold mt-6">404 Page Not Found</h1>,
-        hydrateFallbackElement: <h1 className="text-center font-semibold mt-6">Loading...</h1>,
+        hydrateFallbackElement:<Loading></Loading>,
         children:[
             {
                 path:'/',
@@ -26,7 +28,7 @@ import AuthLayout from "../Layout/AuthLayout";
              },
              {
                 path:'/newsDetails/:id',
-                element: <NewsDetails />,
+                element:<PrivateRoute><NewsDetails /></PrivateRoute>,
                 loader: () => fetch("/news.json"),
              }
         ]
